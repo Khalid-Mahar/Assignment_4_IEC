@@ -1,0 +1,6 @@
+.error-message {
+  color: red;
+}
+.todo-item span {
+  word-wrap: break-word;
+}

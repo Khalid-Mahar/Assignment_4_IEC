@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TODO App</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1>TODO App</h1>
+      <div class="input-group mb-3">
+        <input
+          type="text"
+          id="newTodo"
+          class="form-control"
+          placeholder="Add a new todo"
+        />
+        <div class="input-group-append">
+          <button class="btn btn-primary" type="button" onclick="addTodo()">
+            Add
+          </button>
+        </div>
+      </div>
+      <button class="btn btn-danger mb-3" onclick="confirmDeleteAll()">
+        Delete All
+      </button>
+      <div class="error-message" id="errorMessage"></div>
+      <ul class="list-group" id="todoList"></ul>
+    </div>
+
+    <script>
+      function addTodo() {
+        var newTodoText = document.getElementById("newTodo").value;
+        var errorMessage = document.getElementById("errorMessage");
+        var todoList = document.getElementById("todoList");
+
+        if (newTodoText.trim() === "") {
+          errorMessage.textContent = "Please enter a todo.";
+          return;
+        }
+
+        var todoItem = document.createElement("li");
+        todoItem.className =
+          "list-group-item d-flex justify-content-between align-items-center";
+        var todoText = document.createElement("span");
+        todoText.textContent = newTodoText;
+
+        var deleteIcon = document.createElement("i");
+        deleteIcon.className = "fas fa-trash-alt text-danger ml-2";
+        deleteIcon.style.cursor = "pointer";
+        deleteIcon.onclick = function () {
+          todoList.removeChild(todoItem);
+        };
+
+        var editIcon = document.createElement("i");
+        editIcon.className = "fas fa-edit text-primary ml-2";
+        editIcon.style.cursor = "pointer";
+        editIcon.onclick = function () {
+          var updatedText = prompt("Edit the todo:", newTodoText);
+          if (updatedText !== null && updatedText.trim() !== "") {
+            todoText.textContent = updatedText;
+          }
+        };
+
+        todoItem.appendChild(todoText);
+        todoItem.appendChild(editIcon);
+        todoItem.appendChild(deleteIcon);
+        todoList.appendChild(todoItem);
+
+        errorMessage.textContent = "";
+        document.getElementById("newTodo").value = "";
+      }
+
+      function removeAllTodos() {
+        var todoList = document.getElementById("todoList");
+        todoList.innerHTML = "";
+      }
+
+      function confirmDeleteAll() {
+        var confirmation = confirm(
+          "Are you sure you want to delete all todos?"
+        );
+        if (confirmation) {
+          removeAllTodos();
+        }
+      }
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
